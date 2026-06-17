@@ -7,3 +7,6 @@ build/
 .ruff_cache/
 .env
 .envrc
+
+# Markpact unpack output (urisys markpact run/materialize)
+.markpact/

@@ -3,23 +3,86 @@ version: 0.1.0
 schemes: [kv, log]
 
 uri_patterns:
+  # kv:// — shared state (SQLite), introspection like env://
   - pattern: kv://runtime/query/health
     kind: query
     operation: kv.health
-    handler: python://urikv.handlers:health
+    side_effects: false
+    approval: not_required
   - pattern: kv://runtime/query/list
     kind: query
     operation: kv.list
-    handler: python://urikv.handlers:list_items
+    side_effects: false
+    approval: not_required
   - pattern: kv://runtime/query/discover
     kind: query
     operation: kv.discover
-    handler: python://urikv.handlers:discover
+    side_effects: false
+    approval: not_required
+  - pattern: kv://{namespace}/key/{key}/query/exists
+    kind: query
+    operation: kv.key.exists
+    side_effects: false
+    approval: not_required
+  - pattern: kv://{namespace}/key/{key}/query/get
+    kind: query
+    operation: kv.key.get
+    side_effects: false
+    approval: not_required
+  - pattern: kv://{namespace}/prefix/{prefix}/query/keys
+    kind: query
+    operation: kv.prefix.keys
+    side_effects: false
+    approval: not_required
+  - pattern: kv://{namespace}/key/{key}/command/set
+    kind: command
+    operation: kv.key.set
+    side_effects: true
+    approval: required
+  - pattern: kv://{namespace}/key/{key}/command/delete
+    kind: command
+    operation: kv.key.delete
+    side_effects: true
+    approval: required
+  # log:// — read node events and log files (like uri3 log://, local to node)
   - pattern: log://runtime/query/health
     kind: query
     operation: log.health
-    handler: python://urikv.log_handlers:log_health
+    side_effects: false
+    approval: not_required
   - pattern: log://runtime/query/streams
     kind: query
     operation: log.streams
-    handler: python://urikv.log_handlers:log_streams
+    side_effects: false
+    approval: not_required
+  - pattern: log://{stream}/query/read
+    kind: query
+    operation: log.read
+    side_effects: false
+    approval: not_required
+  - pattern: log://{stream}/query/summarize
+    kind: query
+    operation: log.summarize
+    side_effects: false
+    approval: not_required
+  - pattern: log://file/{path}/query/read
+    kind: query
+    operation: log.file.read
+    side_effects: false
+    approval: not_required
+
+handlers:
+  python:
+    kv.health: python://urikv.handlers:health
+    kv.list: python://urikv.handlers:list_items
+    kv.discover: python://urikv.handlers:discover
+    kv.key.exists: python://urikv.handlers:key_exists
+    kv.key.get: python://urikv.handlers:key_get
+    kv.prefix.keys: python://urikv.handlers:list_items
+    kv.key.set: python://urikv.handlers:key_set
+    kv.key.delete: python://urikv.handlers:key_delete
+    log.health: python://urikv.log_handlers:log_health
+    log.streams: python://urikv.log_handlers:log_streams
+    log.read: python://urikv.log_handlers:log_read
+    log.summarize: python://urikv.log_handlers:log_summarize
+    log.file.read: python://urikv.log_handlers:log_read
