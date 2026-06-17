@@ -1,0 +1,25 @@
+id: urikv
+version: 0.1.0
+schemes: [kv, log]
+
+uri_patterns:
+  - pattern: kv://runtime/query/health
+    kind: query
+    operation: kv.health
+    handler: python://urikv.handlers:health
+  - pattern: kv://runtime/query/list
+    kind: query
+    operation: kv.list
+    handler: python://urikv.handlers:list_items
+  - pattern: kv://runtime/query/discover
+    kind: query
+    operation: kv.discover
+    handler: python://urikv.handlers:discover
+  - pattern: log://runtime/query/health
+    kind: query
+    operation: log.health
+    handler: python://urikv.log_handlers:log_health
+  - pattern: log://runtime/query/streams
+    kind: query
+    operation: log.streams
+    handler: python://urikv.log_handlers:log_streams

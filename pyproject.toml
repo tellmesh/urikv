@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "urikv"
+version = "0.1.0"
+description = "kv:// and log:// URI packs — shared state and system introspection for urisys-node."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+dependencies = ["urisysedge>=0.1.0"]
+
+[tool.uv.sources]
+urisysedge = { path = "../urisysedge", editable = true }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["urikv*"]
+
+[tool.setuptools.package-data]
+urikv = ["manifest.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
