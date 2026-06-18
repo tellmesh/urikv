@@ -9,7 +9,7 @@ description = "kv:// and log:// URI packs — shared state and system introspect
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
-dependencies = ["uricore>=0.1.8"]
+dependencies = ["uricontrol>=0.1.8"]
 
 [tool.uv.sources]
 
