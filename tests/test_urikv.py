@@ -3,7 +3,7 @@ import os
 import tempfile
 from pathlib import Path
 
-from urisysedge.runtime import Runtime
+from uri_control.edge.runtime import Runtime
 
 
 def _rt(**config):
